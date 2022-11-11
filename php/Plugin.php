@@ -11,6 +11,7 @@ class Plugin
         $this->webhooks = [
             Url::factory(),
             Secret::factory(),
+            EventName::factory(),
         ];
         foreach ($this->webhooks as $webook) {
             add_action('save_post', [$webook, 'save']);
