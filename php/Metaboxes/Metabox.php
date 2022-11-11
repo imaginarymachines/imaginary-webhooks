@@ -8,11 +8,16 @@ abstract class Metabox {
     protected $title;
     protected $postTypes;
     protected $fieldName;
-    public function __construct($metaKey,$title,$postTypes = ['post'],$fieldName = null )
+    public function __construct(
+		string $metaKey,
+		string $title,
+		array $postTypes = ['post'],
+		string $fieldName = ''
+	)
     {
         $this->metaKey = $metaKey;
         $this->postTypes = $postTypes;
-        $this->fieldName =  $fieldName ? $fieldName : $metaKey;
+        $this->fieldName =  ! empty($fieldName) ? $fieldName : $metaKey;
         $this->title = $title;
     }
 

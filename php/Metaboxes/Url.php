@@ -5,11 +5,11 @@ namespace ImaginaryMachines\Webhooks\Metaboxes;
 use ImaginaryMachines\Webhooks\Plugin;
 
 class Url extends Metabox {
-
+	const KEY = 'imwm_webhook_url';
 	public static function factory(){
 
 		return new self(
-			Plugin::addPrefix('webhook_url'),
+			self::KEY,
 			'Webhook URL',
 			[Plugin::CPT_NAME]
 		);

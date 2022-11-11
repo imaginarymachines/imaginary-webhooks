@@ -2,6 +2,8 @@
 
 namespace ImaginaryMachines\Webhooks;
 
+use ImaginaryMachines\Webhooks\Events\SavePost;
+use ImaginaryMachines\Webhooks\Events\TransitionStatus;
 use ImaginaryMachines\Webhooks\Metaboxes\EventName;
 use ImaginaryMachines\Webhooks\Metaboxes\Secret;
 use ImaginaryMachines\Webhooks\Metaboxes\Url;
@@ -24,10 +26,19 @@ class Plugin
         //Add actions for saved events
         add_action('init', function(){
             foreach ($this->getSaved() as $saved) {
-                $eventId = $saved['imwm_event_name'];
+                if( ! isset($saved[EventName::KEY])){
+                    continue;
+                }
+                $eventId = $saved[EventName::KEY];
                 if( $eventId && $this->getRegisteredEvent($eventId) ){
                     $event = $this->getRegisteredEvent($eventId);
-                    $event->addHook();
+                    $webhook = new Webhook(
+                        $saved['ID'],
+                        $saved[Url::KEY],
+                        $saved[Secret::KEY]
+                    );
+
+                    $event->addHook($webhook);
                 }
             }
         });
@@ -53,17 +64,22 @@ class Plugin
     }
     /**
      * Get all the events we can use
+     *
+     * @return WebhookEvent[]
      */
     public function getRegisteredEvents(){
-		$events = [];
-        foreach (apply_filters(self::addPrefix('registered_events'), []) as $event) {
+
+        foreach (apply_filters('imwm_registered_events', [
+            SavePost::factory(),
+            TransitionStatus::factory()
+        ]) as $event) {
             $events[$event->getId()] = $event;
         }
 		return $events;
 	}
 
     /**
-     * @return Webhook
+     * @return WebhookEvent
      */
     public function getRegisteredEvent($id){
         $events = $this->getRegisteredEvents();
@@ -74,30 +90,32 @@ class Plugin
     }
 
     public function getSaved(){
-        $cacheKey = __CLASS__ . __METHOD__;
+        $cacheKey = __CLASS__ . __METHOD__.'1webhooks';
         $cacheGroup = 'imw_saved';
         $saved = wp_cache_get($cacheKey, $cacheGroup);
         if( ! empty($saved) ){
             return json_decode($saved);
         }
-        $metakeys = $this->getMetaKeys();
         $posts =  get_posts([
-                'post_type' => self::CPT_NAME,
-                'post_status' => 'publish',
-                'posts_per_page' => -1,
-                'fields' => 'ids'
-            ]);
-        foreach ($posts as $postIndex => $postId) {
-            $metas = [];
-            foreach($metakeys as $metakKey){
-                $metas[$metakKey] = get_post_meta($postId, $metakKey, true);
-            }
-            $posts[$postIndex] = array_merge(
-                    ['ID' => $postId], $metas
-            );
+            'post_type' => self::CPT_NAME,
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'fields' => 'ids'
+        ]);
+        $saved = [];
+        foreach ($posts as  $postId) {
+
+
+            $saved[] = [
+                'ID' => $postId,
+                URL::KEY => get_post_meta($postId, URL::KEY, true),
+                SECRET::KEY => get_post_meta($postId,Secret::KEY, true),
+                EventName::KEY => get_post_meta($postId,  EventName::KEY, true),
+            ];
+
         }
-        wp_cache_set($cacheKey, $cacheGroup,json_encode($posts));
-        return $posts;
+        wp_cache_set($cacheKey, $cacheGroup,json_encode($saved));
+        return $saved;
 
     }
 

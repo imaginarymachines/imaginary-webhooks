@@ -5,6 +5,7 @@ namespace ImaginaryMachines\Webhooks;
 interface WebhookContract {
 
     public function getId();
-    public function getLabel();
+    public function getSecret();
+    public function getUrl();
 
 }

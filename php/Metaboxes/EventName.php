@@ -6,31 +6,20 @@ use ImaginaryMachines\Webhooks\Plugin;
 
 class EventName extends Metabox {
 
+	const KEY = 'imwm_webhook_event_name';
 	public static function factory(){
 
 		return new self(
-			Plugin::addPrefix('event_name'),
+			self::KEY,
 			'Webook Event',
 			[Plugin::CPT_NAME]
 		);
 	}
 
-	public function getRegisteredEvents(){
-		$events = apply_filters(Plugin::addPrefix('registered_events'), [
-			['label' => 'One', 'id' => 'one', 'callback'=> function(){}]
-		]);
-		foreach ($events as $eventI => $event) {
-			foreach (['label', 'id', 'callback'] as $field) {
-				if( ! isset($event[$field])){
-					unset($events[$eventI]);
-					continue;
-				}
-			}
-		}
-		return $events;
-	}
+
     public function html($post)
     {
+
         $value = $this->getValue($post);
 		$events = imwm_webhook()->getRegisteredEvents();
 		if( empty($events)){

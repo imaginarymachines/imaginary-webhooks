@@ -6,10 +6,11 @@ use ImaginaryMachines\Webhooks\Plugin;
 
 class Secret extends Metabox {
 
+	const KEY = 'imwm_webhook_secret';
 	public static function factory(){
 
 		return new self(
-			Plugin::addPrefix('webhook_secret'),
+			self::KEY,
 			'Webhook Secret',
 			[Plugin::CPT_NAME]
 		);
