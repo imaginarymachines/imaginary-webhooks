@@ -50,7 +50,7 @@ abstract class WebhookEvent implements WebhookEventContract
 
 	public function addHook(WebhookContract $webhook)
 	{
-		add_action(
+		add_filter(
 			$this->action,
 			function (...$args) use ($webhook) {
 				if (! $this->shouldRun($args)) {
@@ -62,6 +62,9 @@ abstract class WebhookEvent implements WebhookEventContract
 					'body' => $payload,
 				]);
 				do_action('imwm_webhook_sent', $r, $webhook, $this);
+				if( isset($args[0])){
+					return $args[0];
+				}
 			},
 			$this->priority,
 			$this->acceptedArgs
