@@ -2,26 +2,26 @@
 
 namespace ImaginaryMachines\Webhooks\Metaboxes;
 
-
-abstract class Metabox {
-    protected $metaKey;
-    protected $title;
-    protected $postTypes;
-    protected $fieldName;
-    public function __construct(
+abstract class Metabox
+{
+	protected $metaKey;
+	protected $title;
+	protected $postTypes;
+	protected $fieldName;
+	public function __construct(
 		string $metaKey,
 		string $title,
 		array $postTypes = ['post'],
 		string $fieldName = ''
-	)
-    {
-        $this->metaKey = $metaKey;
-        $this->postTypes = $postTypes;
-        $this->fieldName =  ! empty($fieldName) ? $fieldName : $metaKey;
-        $this->title = $title;
-    }
+	) {
+		$this->metaKey = $metaKey;
+		$this->postTypes = $postTypes;
+		$this->fieldName =  ! empty($fieldName) ? $fieldName : $metaKey;
+		$this->title = $title;
+	}
 
-	public function getMetaKey(){
+	public function getMetaKey()
+	{
 		return $this->metaKey;
 	}
 
@@ -30,7 +30,7 @@ abstract class Metabox {
 	 *
 	 * @param \WP_Post $post   Post object.
 	 */
-	abstract public function html( $post );
+	abstract public function html($post);
 
 	/**
 	 * Create a new instance of this class
@@ -42,10 +42,11 @@ abstract class Metabox {
 	/**
 	 * Set up and add the meta box.
 	 */
-	public function register() {
+	public function register()
+	{
 		$screens = $this->postTypes;
-        $boxId = sprintf('%s-%s-box', $this->metaKey, $this->fieldName);
-		foreach ( $screens as $screen ) {
+		$boxId = sprintf('%s-%s-box', $this->metaKey, $this->fieldName);
+		foreach ($screens as $screen) {
 			add_meta_box(
 				$boxId,          // Unique ID
 				$this->title, // Box title
@@ -61,8 +62,9 @@ abstract class Metabox {
 	 *
 	 * @param int $post_id  The post ID.
 	 */
-	public function save( int $post_id ) {
-		if ( array_key_exists( $this->metaKey, $_POST ) ) {
+	public function save(int $post_id)
+	{
+		if (array_key_exists($this->metaKey, $_POST)) {
 			update_post_meta(
 				$post_id,
 				$this->metaKey,
@@ -71,10 +73,8 @@ abstract class Metabox {
 		}
 	}
 
-    public function getValue(\WP_Post $post){
-        return get_post_meta( $post->ID, $this->metaKey, true );
-    }
-
-
-
+	public function getValue(\WP_Post $post)
+	{
+		return get_post_meta($post->ID, $this->metaKey, true);
+	}
 }

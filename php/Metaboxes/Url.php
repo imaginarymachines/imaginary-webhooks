@@ -4,9 +4,11 @@ namespace ImaginaryMachines\Webhooks\Metaboxes;
 
 use ImaginaryMachines\Webhooks\Plugin;
 
-class Url extends Metabox {
+class Url extends Metabox
+{
 	const KEY = 'imwm_webhook_url';
-	public static function factory(){
+	public static function factory()
+	{
 
 		return new self(
 			self::KEY,
@@ -15,9 +17,9 @@ class Url extends Metabox {
 		);
 	}
 
-    public function html($post)
-    {
-        $value = $this->getValue($post);
+	public function html($post)
+	{
+		$value = $this->getValue($post);
 		?>
 		<label for="<?php echo esc_attr($this->fieldName) ?>">
 			Webhook URL *
@@ -30,5 +32,5 @@ class Url extends Metabox {
 			value="<?php echo esc_attr($value) ?>"
 		/>
 		<?php
-    }
- }
+	}
+}

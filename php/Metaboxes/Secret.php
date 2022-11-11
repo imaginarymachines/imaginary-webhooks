@@ -4,10 +4,12 @@ namespace ImaginaryMachines\Webhooks\Metaboxes;
 
 use ImaginaryMachines\Webhooks\Plugin;
 
-class Secret extends Metabox {
+class Secret extends Metabox
+{
 
 	const KEY = 'imwm_webhook_secret';
-	public static function factory(){
+	public static function factory()
+	{
 
 		return new self(
 			self::KEY,
@@ -16,9 +18,9 @@ class Secret extends Metabox {
 		);
 	}
 
-    public function html($post)
-    {
-        $value = $this->getValue($post);
+	public function html($post)
+	{
+		$value = $this->getValue($post);
 		?>
 		<label for="<?php echo esc_attr($this->fieldName) ?>">
 			<?php echo esc_html($this->title) ?>
@@ -30,5 +32,5 @@ class Secret extends Metabox {
 			value="<?php echo esc_attr($value) ?>"
 		/>
 		<?php
-    }
- }
+	}
+}

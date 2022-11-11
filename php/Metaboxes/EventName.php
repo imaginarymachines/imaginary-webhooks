@@ -4,10 +4,12 @@ namespace ImaginaryMachines\Webhooks\Metaboxes;
 
 use ImaginaryMachines\Webhooks\Plugin;
 
-class EventName extends Metabox {
+class EventName extends Metabox
+{
 
 	const KEY = 'imwm_webhook_event_name';
-	public static function factory(){
+	public static function factory()
+	{
 
 		return new self(
 			self::KEY,
@@ -17,12 +19,12 @@ class EventName extends Metabox {
 	}
 
 
-    public function html($post)
-    {
+	public function html($post)
+	{
 
-        $value = $this->getValue($post);
+		$value = $this->getValue($post);
 		$events = imwm_webhook()->getRegisteredEvents();
-		if( empty($events)){
+		if (empty($events)) {
 			?>
 			<p>No events registered</p>
 			<?php
@@ -43,14 +45,13 @@ class EventName extends Metabox {
 		foreach ($events as $event) {
 			?>
 			<option value="<?php echo esc_attr($event->getId()) ?>"
-				<?php selected( $value, $event->getId() ); ?>
+				<?php selected($value, $event->getId()); ?>
 			>
 				<?php echo esc_html($event->getLabel()) ?>
 			</option>
 
-		<?php
+			<?php
 		}
 		echo '</select>';
-
-    }
- }
+	}
+}

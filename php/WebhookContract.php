@@ -2,10 +2,10 @@
 
 namespace ImaginaryMachines\Webhooks;
 
-interface WebhookContract {
+interface WebhookContract
+{
 
-    public function getId();
-    public function getSecret();
-    public function getUrl();
-
+	public function getId();
+	public function getSecret();
+	public function getUrl();
 }
