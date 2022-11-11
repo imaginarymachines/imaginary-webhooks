@@ -8,7 +8,6 @@ use ImaginaryMachines\Webhooks\WebhookEvent;
 class SavePost extends WebhookEvent
 {
 
-
 	public static function factory()
 	{
 		return new self(
