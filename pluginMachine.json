@@ -19,14 +19,10 @@
     ],
     "buildSteps": {
         "dev": [
-            "composer install",
-            "yarn",
-            "yarn start"
+            "composer install"
         ],
         "prod": [
-            "composer install --no-dev --prefer-dist -o",
-            "yarn",
-            "yarn build"
+            "composer install --no-dev --prefer-dist -o"
         ]
     }
 }
