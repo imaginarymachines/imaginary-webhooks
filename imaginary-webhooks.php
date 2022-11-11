@@ -25,6 +25,7 @@ use ImaginaryMachines\Webhooks\Url;
 add_action( 'plugins_loaded', function () {
     if ( file_exists(__DIR__ . '/vendor/autoload.php' ) ) {
         include __DIR__ . '/vendor/autoload.php';
+        include_once dirname( __FILE__ ) . '/admin/webooks-settings/init.php';
         imwm_webhook();
     }else{
         add_action( 'admin_notices', function () {
@@ -49,4 +50,3 @@ function imwm_webhook(){
     return $imwm_webhook;
 
 }
-include_once dirname( __FILE__ ) . '/admin/webooks-settings/init.php';

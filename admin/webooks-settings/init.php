@@ -7,7 +7,7 @@ add_action('admin_enqueue_scripts', function ($hook) {
     if ('toplevel_page_webooks-settings' != $hook) {
         return;
     }
-    wp_enqueue_script('webooks-settings');
+    //wp_enqueue_script('webooks-settings');
 });
 
 //Register Webhooks Settings menu page
