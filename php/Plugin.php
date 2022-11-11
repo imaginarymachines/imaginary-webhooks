@@ -32,6 +32,14 @@ class Plugin
             }
         });
 
+        //When saving webhooks, re-prime cache
+        add_action( 'save_post', function(int $post_ID, \WP_Post $post, bool $update){
+            if( self::CPT_NAME === $post->post_type ){
+                $this->getSaved();
+            }
+        },10,3 );
+
+
     }
 
 
@@ -66,6 +74,12 @@ class Plugin
     }
 
     public function getSaved(){
+        $cacheKey = __CLASS__ . __METHOD__;
+        $cacheGroup = 'imw_saved';
+        $saved = wp_cache_get($cacheKey, $cacheGroup);
+        if( ! empty($saved) ){
+            return json_decode($saved);
+        }
         $metakeys = $this->getMetaKeys();
         $posts =  get_posts([
                 'post_type' => self::CPT_NAME,
@@ -82,6 +96,7 @@ class Plugin
                     ['ID' => $postId], $metas
             );
         }
+        wp_cache_set($cacheKey, $cacheGroup,json_encode($posts));
         return $posts;
 
     }

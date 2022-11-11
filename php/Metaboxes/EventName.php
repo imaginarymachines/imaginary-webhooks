@@ -33,7 +33,12 @@ class EventName extends Metabox {
     {
         $value = $this->getValue($post);
 		$events = imwm_webhook()->getRegisteredEvents();
-
+		if( empty($events)){
+			?>
+			<p>No events registered</p>
+			<?php
+			return;
+		}
 		?>
 		<label for="<?php echo esc_attr($this->fieldName) ?>">
 			Webhook Event
