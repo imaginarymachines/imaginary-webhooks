@@ -1,6 +1,6 @@
 <?php
 
-namespace ImaginaryMachines\Webhooks;
+namespace ImaginaryMachines\Webhooks\Metaboxes;
 
 
 abstract class Metabox {

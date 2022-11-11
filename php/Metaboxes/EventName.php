@@ -1,6 +1,8 @@
 <?php
 
-namespace ImaginaryMachines\Webhooks;
+namespace ImaginaryMachines\Webhooks\Metaboxes;
+
+use ImaginaryMachines\Webhooks\Plugin;
 
 class EventName extends Metabox {
 

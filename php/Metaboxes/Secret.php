@@ -1,6 +1,9 @@
 <?php
 
-namespace ImaginaryMachines\Webhooks;
+namespace ImaginaryMachines\Webhooks\Metaboxes;
+
+use ImaginaryMachines\Webhooks\Plugin;
+
 class Secret extends Metabox {
 
 	public static function factory(){

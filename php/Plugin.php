@@ -1,6 +1,11 @@
 <?php
 
 namespace ImaginaryMachines\Webhooks;
+
+use ImaginaryMachines\Webhooks\Metaboxes\EventName;
+use ImaginaryMachines\Webhooks\Metaboxes\Secret;
+use ImaginaryMachines\Webhooks\Metaboxes\Url;
+
 class Plugin
 {
     const CPT_NAME = 'imwm_webhook';
