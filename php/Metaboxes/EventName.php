@@ -32,7 +32,8 @@ class EventName extends Metabox {
     public function html($post)
     {
         $value = $this->getValue($post);
-		$events = $this->getRegisteredEvents();
+		$events = imwm_webhook()->getRegisteredEvents();
+
 		?>
 		<label for="<?php echo esc_attr($this->fieldName) ?>">
 			Webhook Event
@@ -47,12 +48,15 @@ class EventName extends Metabox {
 		<?php
 		foreach ($events as $event) {
 			?>
-			<option value="<?php echo esc_attr($event['id']) ?>"
-				<?php selected( $value, $event['id'] ); ?>>
-				<?php echo esc_html($event['label']) ?>
+			<option value="<?php echo esc_attr($event->getId()) ?>"
+				<?php selected( $value, $event->getId() ); ?>
+			>
+				<?php echo esc_html($event->getLabel()) ?>
 			</option>
+
 		<?php
 		}
+		echo '</select>';
 
     }
  }

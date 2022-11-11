@@ -25,9 +25,7 @@ use ImaginaryMachines\Webhooks\Url;
 add_action( 'plugins_loaded', function () {
     if ( file_exists(__DIR__ . '/vendor/autoload.php' ) ) {
         include __DIR__ . '/vendor/autoload.php';
-        $plugin = new Plugin();
-        add_action('init', [$plugin, 'registerCpt']);
-        do_action('imwm_webhook',$plugin);
+        imwm_webhook();
     }else{
         add_action( 'admin_notices', function () {
             echo '<div class="notice notice-error is-dismissible">
@@ -38,10 +36,17 @@ add_action( 'plugins_loaded', function () {
 
 }, 1 );
 
-include_once dirname( __FILE__ ). '/inc/functions.php';
-include_once dirname( __FILE__ ). '/inc/hooks.php';
+/**
+ * @return Plugin
+ */
+function imwm_webhook(){
+    static $imwm_webhook;
+    if ( ! $imwm_webhook ) {
+        $imwm_webhook = new Plugin();
+        add_action('init', [$imwm_webhook, 'registerCpt']);
+        do_action('imwm_webhook',$imwm_webhook);
+    }
+    return $imwm_webhook;
 
-
-
-
+}
 include_once dirname( __FILE__ ) . '/admin/webooks-settings/init.php';

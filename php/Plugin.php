@@ -10,22 +10,80 @@ class Plugin
 {
     const CPT_NAME = 'imwm_webhook';
     const PREFIX = 'imwm_';
-    protected array $webhooks = [];
+    protected array $webhookMetaBoxes = [];
     public function __construct()
     {
-        $this->webhooks = [
+        $this->webhookMetaBoxes = [
             Url::factory(),
             Secret::factory(),
             EventName::factory(),
         ];
-        foreach ($this->webhooks as $webook) {
+        foreach ($this->webhookMetaBoxes as $webook) {
             add_action('save_post', [$webook, 'save']);
-
         }
+        //Add actions for saved events
+        add_action('init', function(){
+            foreach ($this->getSaved() as $saved) {
+                $eventId = $saved['imwm_event_name'];
+                if( $eventId && $this->getRegisteredEvent($eventId) ){
+                    $event = $this->getRegisteredEvent($eventId);
+                    $event->addHook();
+                }
+            }
+        });
+
     }
-    public function sayHi(): string
-    {
-        return  'Hi Roy';
+
+
+    public function getMetaKeys(){
+        $keys = [];
+        foreach ($this->webhookMetaBoxes as $webook) {
+            $keys[] = $webook->getMetaKey();
+        }
+        return $keys;
+
+    }
+    /**
+     * Get all the events we can use
+     */
+    public function getRegisteredEvents(){
+		$events = [];
+        foreach (apply_filters(self::addPrefix('registered_events'), []) as $event) {
+            $events[$event->getId()] = $event;
+        }
+		return $events;
+	}
+
+    /**
+     * @return Webhook
+     */
+    public function getRegisteredEvent($id){
+        $events = $this->getRegisteredEvents();
+        if( array_key_exists($id, $events) ){
+            return $events[$id];
+        }
+        return false;
+    }
+
+    public function getSaved(){
+        $metakeys = $this->getMetaKeys();
+        $posts =  get_posts([
+                'post_type' => self::CPT_NAME,
+                'post_status' => 'publish',
+                'posts_per_page' => -1,
+                'fields' => 'ids'
+            ]);
+        foreach ($posts as $postIndex => $postId) {
+            $metas = [];
+            foreach($metakeys as $metakKey){
+                $metas[$metakKey] = get_post_meta($postId, $metakKey, true);
+            }
+            $posts[$postIndex] = array_merge(
+                    ['ID' => $postId], $metas
+            );
+        }
+        return $posts;
+
     }
 
     public static function addPrefix(string $string):string{
@@ -79,7 +137,7 @@ class Plugin
     }
 
     public function registerMetaBoxes(){
-        foreach ($this->webhooks as $webook) {
+        foreach ($this->webhookMetaBoxes as $webook) {
             $webook->register();
 
         }

@@ -4,10 +4,10 @@ namespace ImaginaryMachines\Webhooks\Metaboxes;
 
 
 abstract class Metabox {
-    public $metaKey;
-    public $title;
-    public $postTypes;
-    public $fieldName;
+    protected $metaKey;
+    protected $title;
+    protected $postTypes;
+    protected $fieldName;
     public function __construct($metaKey,$title,$postTypes = ['post'],$fieldName = null )
     {
         $this->metaKey = $metaKey;
@@ -16,6 +16,9 @@ abstract class Metabox {
         $this->title = $title;
     }
 
+	public function getMetaKey(){
+		return $this->metaKey;
+	}
 
 	/**
 	 * Display the meta box HTML to the user.
