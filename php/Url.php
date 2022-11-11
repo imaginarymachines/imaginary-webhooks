@@ -18,7 +18,7 @@ class Url extends Metabox {
         $value = $this->getValue($post);
 		?>
 		<label for="<?php echo esc_attr($this->fieldName) ?>">
-			Webhook URL
+			Webhook URL *
 		</label>
 		<input
 			required

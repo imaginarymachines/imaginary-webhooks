@@ -20,7 +20,6 @@ class Secret extends Metabox {
 			<?php echo esc_html($this->title) ?>
 		</label>
 		<input
-			required
 			id="<?php echo esc_attr($this->fieldName) ?>"
 			name="<?php echo esc_attr($this->fieldName) ?>"
 			type="text"
