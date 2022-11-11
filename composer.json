@@ -7,12 +7,12 @@
     "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
-            " ImaginaryMachines\\Webhooks\\": "./php"
+            "ImaginaryMachines\\Webhooks\\": "./php"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            " ImaginaryMachines\\Webhooks\\Tests\\": "./tests"
+            "ImaginaryMachines\\Webhooks\\Tests\\": "./tests"
         }
     },
     "require-dev": {

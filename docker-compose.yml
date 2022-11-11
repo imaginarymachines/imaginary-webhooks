@@ -20,6 +20,13 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        # Change log location
+        define( 'WP_DEBUG_LOG', 'wp-content/plugins/imaginary-webhooks/wpdebug.log' );
+        # Display errors
+        define( 'WP_DEBUG_DISPLAY', true );
+
 
   ## Database for WordPress site
   wpdb:
@@ -54,6 +61,12 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
       ABSPATH: /usr/src/wordpress/
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        # Change log location
+        define( 'WP_DEBUG_LOG', 'wp-content/plugins/imaginary-webhooks/wpdebug.log' );
+        # Display errors
+        define( 'WP_DEBUG_DISPLAY', true );
 
   # Integration Testing - Tests that run in phpunit with WordPress + MySQL
   ## Runner for phpunit

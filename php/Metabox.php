@@ -2,8 +2,8 @@
 
 namespace ImaginaryMachines\Webhooks;
 
-abstract class Metabox {
 
+abstract class Metabox {
     public $metaKey;
     public $title;
     public $postTypes;
@@ -16,19 +16,25 @@ abstract class Metabox {
         $this->title = $title;
     }
 
-    /**
-     * Add all the hooks we need to make this metabox work
-     *
-     */
-    public function addHooks(){
-        add_action( 'add_meta_boxes', [ $this, 'add' ] );
-        add_action( 'save_post', [ $this, 'save' ] );
-    }
+
+	/**
+	 * Display the meta box HTML to the user.
+	 *
+	 * @param \WP_Post $post   Post object.
+	 */
+	abstract public function html( $post );
+
+	/**
+	 * Create a new instance of this class
+	 *
+	 * @return static
+	 */
+	abstract public static function factory();
 
 	/**
 	 * Set up and add the meta box.
 	 */
-	public function add() {
+	public function register() {
 		$screens = $this->postTypes;
         $boxId = sprintf('%s-%s-box', $this->metaKey, $this->fieldName);
 		foreach ( $screens as $screen ) {
@@ -62,10 +68,5 @@ abstract class Metabox {
     }
 
 
-	/**
-	 * Display the meta box HTML to the user.
-	 *
-	 * @param \WP_Post $post   Post object.
-	 */
-	abstract public function html( $post );
+
 }
