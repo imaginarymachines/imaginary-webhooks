@@ -1,0 +1,32 @@
+{
+    "slug": "imaginary-webhooks",
+    "pluginId": 348,
+    "buildId": 377,
+    "entryPoints": {
+        "adminPages": [
+            "webooks-settings"
+        ],
+        "blocks": []
+    },
+    "buildIncludes": [
+        "imaginary-webhooks.php",
+        "readme.txt",
+        "php",
+        "vendor",
+        "build",
+        "inc",
+        "admin/webooks-settings/init.php"
+    ],
+    "buildSteps": {
+        "dev": [
+            "composer install",
+            "yarn",
+            "yarn start"
+        ],
+        "prod": [
+            "composer install --no-dev --prefer-dist -o",
+            "yarn",
+            "yarn build"
+        ]
+    }
+}
