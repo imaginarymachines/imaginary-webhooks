@@ -23,13 +23,6 @@ class EnvironmentTest extends TestCase
         self::assertIsNotIterable( new \stdClass() );
     }
 
-    /**
-     * A test ensuring that the composer autoloader works
-     */
-    public function testAutoloaderWorks()
-    {
-        $this->assertSame('Hi Roy', (new Plugin())->sayHi());
-    }
 
     /**
      * Test that we can mock WordPress functions
