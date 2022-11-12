@@ -19,9 +19,9 @@ jobs:
     strategy:
       matrix:
         # PHP Versions to test
-        php-version: [ "7.2", "7.3","7.4"]
+        php-version: [ "7.4"]
         # WordPress versions to test
-        wp-version: [ "latest", "5.8", ]
+        wp-version: [ "latest", "6.1","6.2" ]
       # Allow all tests to run, even if one fails
       ## https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
       fail-fast: false
