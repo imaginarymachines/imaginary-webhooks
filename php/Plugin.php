@@ -15,6 +15,7 @@ class Plugin
 	protected array $webhookMetaBoxes = [];
 	public function __construct()
 	{
+		//Register meta boxes
 		$this->webhookMetaBoxes = [
 			Url::factory(),
 			Secret::factory(),
@@ -39,7 +40,7 @@ class Plugin
 		return $keys;
 	}
 	/**
-	 * Get all the events we can use
+	 * Get all the types of events we can use
 	 *
 	 * @return WebhookEvent[]
 	 */
@@ -56,6 +57,8 @@ class Plugin
 	}
 
 	/**
+	 * Get a type of event we can use for a webhook
+	 *
 	 * @return WebhookEvent
 	 */
 	public function getRegisteredEvent($id)
@@ -67,6 +70,12 @@ class Plugin
 		return false;
 	}
 
+	/**
+	 * Get all the saved webhooks
+	 *
+	 * @return array
+	 *
+	 */
 	public function getSaved()
 	{
 		$cacheKey = __CLASS__ . __METHOD__.'1webhooks';

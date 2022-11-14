@@ -2,6 +2,10 @@
 
 namespace ImaginaryMachines\Webhooks;
 
+/**
+ * A "webhook event" is a WordPress hook that we can use to trigger a webhook
+ * This is a bad name.
+ */
 abstract class WebhookEvent implements WebhookEventContract
 {
 
@@ -24,31 +28,25 @@ abstract class WebhookEvent implements WebhookEventContract
 		$this->acceptedArgs = $acceptedArgs;
 	}
 
-	/**
-	 * @return static
-	 *
-	 */
-	abstract public static function factory();
 
 	/**
-	 * Get the payload for the webhook
-	 *
-	 * @param array $args
-	 * @return array
+	 * Create an instance of this class
+	 * @return static
 	 */
-	abstract public function getPayload(array $args);
+	abstract public static function factory():static;
 
 	/**
 	 * Should webhook run
 	 *
-	 * @return string
+	 * @return bool
 	 */
 	public function shouldRun(array $args): bool
 	{
 		return true;
 	}
 
-	public function addHook(WebhookContract $webhook)
+	/** @inheritDoc */
+	public function addHook(WebhookContract $webhook):void
 	{
 		add_filter(
 			$this->action,
@@ -71,11 +69,13 @@ abstract class WebhookEvent implements WebhookEventContract
 		);
 	}
 
+	/** @inheritDoc */
 	public function getId(): string
 	{
 		return $this->id;
 	}
 
+	/** @inheritDoc */
 	public function getLabel(): string
 	{
 		return $this->label;

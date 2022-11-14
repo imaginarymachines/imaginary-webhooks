@@ -2,6 +2,9 @@
 
 namespace ImaginaryMachines\Webhooks;
 
+/**
+ * A "webhook" is a saved webhook that can be dispatched
+ */
 class Webhook implements WebhookContract
 {
 
