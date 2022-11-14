@@ -24,31 +24,9 @@ class Plugin
 			add_action('save_post', [$webook, 'save']);
 		}
 		//Add actions for saved events
-		add_action('init', function () {
-			foreach ($this->getSaved() as $saved) {
-				if (! isset($saved[EventName::KEY])) {
-					continue;
-				}
-				$eventId = $saved[EventName::KEY];
-				if ($eventId && $this->getRegisteredEvent($eventId)) {
-					$event = $this->getRegisteredEvent($eventId);
-					$webhook = new Webhook(
-						$saved['ID'],
-						$saved[Url::KEY],
-						$saved[Secret::KEY]
-					);
-
-					$event->addHook($webhook);
-				}
-			}
-		});
-
+		add_action('init', [Hooks::class, 'onInit']);
 		//When saving webhooks, re-prime cache
-		add_action('save_post', function (int $post_ID, \WP_Post $post, bool $update) {
-			if (self::CPT_NAME === $post->post_type) {
-				$this->getSaved();
-			}
-		}, 10, 3);
+		add_action('save_post', [Hooks::class, 'onSavePost'], 10, 3);
 	}
 
 
