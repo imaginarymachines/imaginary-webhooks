@@ -9,7 +9,7 @@ class TransitionStatus extends WebhookEvent
 {
 
 
-	public static function factory()
+	public static function factory():static
 	{
 		return new self(
 			'post_published',

@@ -8,7 +8,7 @@ use ImaginaryMachines\Webhooks\WebhookEvent;
 class SavePost extends WebhookEvent
 {
 
-	public static function factory()
+	public static function factory():static
 	{
 		return new self(
 			'save_post',
@@ -34,7 +34,7 @@ class SavePost extends WebhookEvent
 		return false;
 	}
 
-	public function getPayload($args)
+	public function getPayload(array $args) :array
 	{
 		$post = $args[1];
 		$payload = [
