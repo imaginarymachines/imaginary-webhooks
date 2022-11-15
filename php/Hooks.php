@@ -55,4 +55,5 @@ class Hooks {
             static::getPlugin()->getSaved();
         }
     }
+
 }

@@ -15,15 +15,31 @@ const ACTIONS = {
 			},
 		],
 	},
+	addInterface: {
+		prompts: [
+			{
+				type: "input",
+				name: "name",
+				message: "interface name",
+			},
+		],
+		actions: [
+			{
+				type: "add",
+				path: "php/Contracts/{{camelCase name}}.php",
+				templateFile: "plop-templates/Interface.hbs",
+			},
+		],
+	},
 };
-const plops = {
-	phpClass(plop) {
+const GENERATORS = [
+	function phpClass(plop) {
 		plop.setGenerator("class", {
 			description: "Add a php class",
 			...ACTIONS.addClass,
 		});
 	},
-	event(plop) {
+	function event(plop) {
 		plop.setGenerator("event", {
 			description: "application controller logic",
 			prompts: [
@@ -56,7 +72,7 @@ const plops = {
 			],
 		});
 	},
-	endpoint(plop) {
+	function endpoint(plop) {
 		// controller generator
 		plop.setGenerator("endpoint", {
 			description: "application controller logic",
@@ -77,7 +93,30 @@ const plops = {
 			],
 		});
 	},
-};
+	function addInterface(plop) {
+		plop.setGenerator("interface", {
+			description: "Add a php interface",
+			...ACTIONS.addInterface,
+		});
+	},
+];
+const PARTIALS = [
+	//Link to WordPress reference for a class
+	//Usage: {{> wpDocsClass }}
+	function (plop) {
+		plop.setPartial('wpDocsClass', '@see https://developer.wordpress.org/reference/classes/{{class}}/');
+	},
+	//Link to WordPress reference for a function
+	//Usage: {{> wpDocsFunction }}
+	function (plop) {
+		plop.setPartial('wpDocsFunction', '@see https://developer.wordpress.org/reference/functions/{{function}}/');
+	},
+	//Link to WordPress reference for a hook
+	//Usage: {{> wpDocsHook }}
+	function (plop) {
+		plop.setPartial('wpDocsHook', '@see https://developer.wordpress.org/reference/hooks/{{hook}}/');
+	},
+];
 module.exports = function (plop) {
 	//To uppercase
 	plop.setHelper("upperCase", function (text) {
@@ -95,7 +134,6 @@ module.exports = function (plop) {
 				.replace(/\s+/g, "")
 		);
 	});
-	plops.phpClass(plop);
-	plops.event(plop);
-	plops.endpoint(plop);
+	GENERATORS.forEach(generator => generator(plop));
+	PARTIALS.forEach(partial => partial(plop));
 };
