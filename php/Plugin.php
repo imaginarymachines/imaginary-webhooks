@@ -51,9 +51,23 @@ class Plugin
 			SavePost::factory(),
 			TransitionStatus::factory()
 		]) as $event) {
+
+
 			$events[$event->getId()] = $event;
 		}
 		return $events;
+	}
+
+	protected function isValid( $event ):bool {
+		try{
+			$impliments = in_array(
+				"ImaginaryMachines\Webhooks\WebhookEventContract",
+				class_implements($event,false)
+			);
+			return $impliments;
+		}catch{
+			return false;
+		}
 	}
 
 	/**

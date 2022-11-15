@@ -6,7 +6,11 @@ use ImaginaryMachines\Webhooks\WebhookEvent;
 
 class {{name}} extends WebhookEvent {
 
-public static function factory():static
+    /**
+    * @return static
+    * @see https://developer.wordpress.org/reference/hooks/{{hook}}
+    */
+    public static function factory():static
 	{
 		return new self(
             //ID of event
@@ -28,19 +32,29 @@ public static function factory():static
 		return $payload;
 	}
 
-
+    /**
+    * Get post object
+    * @param array $args
+    * @return\WP_Post|bool
+    *
+    */
     protected function getPost(array $args)
 	{
-		if (isset($args[1]) && $args[1] instanceof \WP_Post) {
-			return $args[1];
+        //Make sure to check the arguments and update
+		if (isset($args[0]) && is_numeric($args[0])) {
+			return \get_post($args[0]);
 		}
 		return false;
 	}
+    /**
+    * @param array $args
+    * @return bool
+    */
 	public function shouldRun(array $args): bool
 	{
 		$post = $this->getPost($args);
-		if (is_object($post)) {
-			return $post->post_type !== Plugin::CPT_NAME;
+		if( ! $post || ! $this->isPostWebhook($post) ) {
+			return false;
 		}
 		return false;
 	}

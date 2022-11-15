@@ -9,6 +9,14 @@
 - Install php dependencies
   - `composer install`
 
+## Build
+
+- Build, without zip
+  - `plugin-machine plugin build --buildDir=build`
+  - Other plugin expects this.
+- Build and zip
+  - `plugin-machine plugin zip`
+
 ## Working With PHP
 
 ### Autoloader

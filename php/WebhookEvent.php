@@ -33,7 +33,7 @@ abstract class WebhookEvent implements WebhookEventContract
 	 * Create an instance of this class
 	 * @return static
 	 */
-	abstract public static function factory():static;
+	abstract public static function factory();
 
 	/**
 	 * Should webhook run
@@ -79,5 +79,12 @@ abstract class WebhookEvent implements WebhookEventContract
 	public function getLabel(): string
 	{
 		return $this->label;
+	}
+
+	protected function isPostWebhook(\WP_Post $post ):bool{
+		if (is_object($post)) {
+			return $post->post_type !== Plugin::CPT_NAME;
+		}
+		return false;
 	}
 }

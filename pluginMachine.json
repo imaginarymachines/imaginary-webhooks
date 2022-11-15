@@ -13,8 +13,6 @@
         "readme.txt",
         "php",
         "vendor",
-        "build",
-        "inc",
         "admin/webooks-settings/init.php"
     ],
     "buildSteps": {

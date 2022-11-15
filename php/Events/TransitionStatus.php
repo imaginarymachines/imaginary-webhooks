@@ -9,7 +9,7 @@ class TransitionStatus extends WebhookEvent
 {
 
 
-	public static function factory():static
+	public static function factory()
 	{
 		return new self(
 			'post_published',
@@ -42,7 +42,7 @@ class TransitionStatus extends WebhookEvent
 		return false;
 	}
 
-	public function getPayload($args)
+	public function getPayload(array $args):array
 	{
 		$post = $this->getPost($args);
 		$payload = [
