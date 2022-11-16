@@ -38,11 +38,17 @@ class Plugin
 		foreach ($this->webhookMetaBoxes as $webook) {
 			add_action('save_post', [$webook, 'save']);
 		}
-		//Add actions for saved events
-		add_action('init', [Hooks::class, 'onInit']);
+
 		//When saving webhooks, re-prime cache
 		add_action('save_post', [Hooks::class, 'onSavePost'], 10, 3);
 
+		//Should we dispatch our own events?
+		//Not working fully yet.
+		$dispatchOn = apply_filters('imwm_dispatch_on', false );
+		if( $dispatchOn ){
+			//Add actions for saved events
+			add_action('init', [Hooks::class, 'onInit']);
+		}
 
 	}
 
