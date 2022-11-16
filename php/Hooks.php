@@ -20,6 +20,7 @@ class Hooks {
      * @return void
      */
     public static function onInit(){
+        $added = [];
         foreach (static::getPlugin()->getSaved() as $saved) {
             if (! isset($saved[EventName::KEY])) {
                 continue;
@@ -32,10 +33,11 @@ class Hooks {
                     $saved[Url::KEY],
                     $saved[Secret::KEY]
                 );
-
                 $event->addHook($webhook);
+                $added[] = $webhook;
             }
         }
+        do_action('imwm_webhooks_added', $added);
     }
 
     /**

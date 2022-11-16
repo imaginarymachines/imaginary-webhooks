@@ -31,6 +31,22 @@ const ACTIONS = {
 			},
 		],
 	},
+	addMetabox: {
+		prompts: [
+			{
+				type: "input",
+				name: "name",
+				message: "class name",
+			},
+		],
+		actions: [
+			{
+				type: "add",
+				path: "php/Metaboxes/{{camelCase name}}.php",
+				templateFile: "plop-templates/Metabox.hbs",
+			},
+		],
+	},
 };
 const GENERATORS = [
 	function phpClass(plop) {
@@ -99,6 +115,13 @@ const GENERATORS = [
 			...ACTIONS.addInterface,
 		});
 	},
+	//Metabox
+	function (plop) {
+		plop.setGenerator("metabox", {
+			description: "Add a post editor metabox",
+			...ACTIONS.addMetabox,
+		});
+	}
 ];
 const PARTIALS = [
 	//Link to WordPress reference for a class
